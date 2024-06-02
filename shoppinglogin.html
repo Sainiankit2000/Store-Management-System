@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login - Store Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-container {
+            position: relative; /* Add position relative to allow absolute positioning */
+        }
+
+        h1 {
+            padding: 20px; /* Add padding to the heading */
+            background-color: red;
+            text-align: center;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Style for the image */
+        .header-image {
+            position: absolute; /* Position the image absolutely */
+            top: 200px; /* Adjust the top position as needed */
+            right: 50px; /* Adjust the right position as needed (increased from 1px) */
+            width: 500px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh; /* Increase the height to your desired value */
+        }
+
+        .login-box {
+            background-color: red;
+            padding: 100px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .login-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background-color: red;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .signup-link a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .forgot-password-link a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header-container">
+        <h1><marquee>STORE MANAGEMENT SYSTEM</marquee></h1>
+        <img class="header-image" src="sh.jpg" alt="Header Image">
+    </div>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-title">Login</div>
+            <form class="login-form" id="loginForm" onsubmit="return loginUser()">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="login-button">Login</button>
+                </div>
+            </form>
+            <div class="signup-link">
+                Don't have an account? <a href="shoppingsignup.html">Sign Up</a>
+            </div>
+            <div class="forgot-password-link">
+                <a href="shoppingforgetpassword.html">Forgot Password?</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function loginUser() {
+            // Add your login logic here
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // You can check the username and password here and redirect if login is successful
+
+            // For example, you can check if username and password match some predefined values
+            if (username === 'admin' && password === 'password') {
+                alert('Login successful! Redirecting to the main page...');
+                window.location.href = 're2.html'; 
+            } else {
+                alert('Login failed. Please check your credentials.');
+            }
+
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+
+</html>

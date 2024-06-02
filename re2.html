@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Store Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: red;
+            text-align: center;
+            padding: 10px 0;
+            margin: 0;
+            color: #333;
+        }
+
+        button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: red;
+        }
+
+        .table1 {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .th1 {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            text-align: left;
+            padding: 8px;
+        }
+
+        .td1, .td2 {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .row-even {
+            background-color: #f2f2f2;
+        }
+
+        .row-odd {
+            background-color: #fff;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input[type="text"],
+        select {
+            padding: 8px;
+            width: 30%;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        table button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        table button:hover {
+            background-color: #c82333;
+        }
+
+        #data-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #image-container {
+            position: fixed;
+            top: 50px;
+            right: 0;
+            width: 30%;
+            height: 90%;
+            background-color: transparent;
+        }
+
+        #image-container img {
+            max-width: 100%;
+            max-height: 120%;
+            display: block;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .row-even {
+    background-color: lightskyblue;
+}
+
+.row-odd {
+    background-color: #ffc0cb; 
+}
+.add-to-order-row {
+        background-color: skyblue;
+    }
+    .all-orders-row {
+        background-color: skyblue;
+    }
+    .center-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh; 
+        }
+        #table-container {
+        flex: 1;
+        max-width: 70%;
+        overflow: auto;
+    }
+
+    #showall {
+        padding: 20px;
+        max-height: 70vh; 
+        overflow: auto; 
+    }
+    
+    </style>
+</head>
+
+<body>
+    <h1><marquee>STORE MANAGEMENT SYSTEM</marquee></h1>
+    <div style="display: flex; justify-content: center; align-items: center; height: 10vh;">
+        <button onclick="showproduct()">Products</button>
+        <button onclick="enterOrder()">Enter an Order</button>
+        <button onclick="allorder()">All Orders</button>
+    </div>
+    <div id="center-container" class="center-container">
+        <div id="show" class="hidden"></div>
+        <div id="show1" class="hidden"></div>
+        <div id="showall" class="hidden"></div>
+        <div id="image-container">
+            <img src="sh.jpg" alt="Image Description">
+        </div>
+        <div id="table-container"></div>
+    </div>
+    <script>
+        const Products = [
+            { prodcode: 'PEP122', prodname: 'Pepsi', price: 12, category: 'Food', offer: '10%' },
+            { prodcode: 'COK238', prodname: 'Coke', price: 15, category: 'Food', offer: '15%' },
+            { prodcode: 'MIR411', prodname: 'Mirinda', price: 30, category: 'Food', offer: '20%' },
+            { prodcode: 'RB0277', prodname: 'Red Bull', price: 80, category: 'Food', offer: 'None' },
+            { prodcode: 'LUX831', prodname: 'Lux', price: 10, category: 'Soap', offer: '15%' },
+            { prodcode: 'DOV672', prodname: 'Dove', price: 25, category: 'Soap', offer: '20%' },
+            { prodcode: 'DET810', prodname: 'Dettol', price: 15, category: 'Soap', offer: 'None' },
+            { prodcode: 'PAN590', prodname: 'Pantene', price: 60, category: 'Shampoo', offer: 'None' },
+            { prodcode: 'SUN677', prodname: 'Sunsilk', price: 48, category: 'Shampoo', offer: '15%' },
+            { prodcode: 'GAR004', prodname: 'Garnier', price: 75, category: 'Shampoo', offer: '10%' }
+        ];
+
+        const orders = [
+            {
+                "customerName": "Jack Smith",
+                "mobileNumber": "425361434",
+                "location": "Sector 14",
+                "deliverySlot": "12PM-2PM",
+                "totalItems": 2,
+                "items": [
+                    { "productCode": "PEP122", "productName": "Pepsi", "price": 12, "quantity": 2, "discountPercentage": "10%" }
+                ]
+            },
+            {
+                "customerName": "Mary Gomes",
+                "mobileNumber": "723476123",
+                "location": "Sector 22",
+                "deliverySlot": "4PM-6PM",
+                "totalItems": 5,
+                "items": [
+                    { "productCode": "SUN677", "productName": "Sunsilk", "price": 48, "quantity": 2, "discountPercentage": "15%" },
+                    { "productCode": "LUX831", "productName": "Lux", "price": 10, "quantity": 3, "discountPercentage": "15%" }
+                ]
+            },
+            {
+                "customerName": "Tim May",
+                "mobileNumber": "835099614",
+                "location": "Pioneer Chowk",
+                "deliverySlot": "Before 10AM",
+                "totalItems": 11,
+                "items": [
+                    { "productCode": "GAR004", "productName": "Garnier", "price": 75, "quantity": 6, "discountPercentage": "10%" },
+                    { "productCode": "RB0277", "productName": "Red Bull", "price": 80, "quantity": 3, "discountPercentage": "None" },
+                    { "productCode": "MIR411", "productName": "Mirinda", "price": 30, "quantity": 2, "discountPercentage": "20%" }
+                ]
+            }
+        ];
+
+        const Locations = ['Sector 14A', 'Sector 15B', 'Sector 22', 'Pioneer Chowk'];
+
+        const DeliverySlots = ['Before 10AM', '10AM-12PM', '12PM-2PM', '2PM-4PM', '4PM-6PM', 'After 6PM'];
+
+        function showproduct() {
+            document.getElementById('showall').style.display = 'none';
+            document.getElementById('show1').style.display = 'none';
+            const showElement = document.getElementById('show');
+            showElement.style.display = 'block';
+
+            let pMap = Products.map(function (ele, index) {
+                let rowClass;
+                if (index % 2 === 0) {
+                    rowClass = 'row-even';
+                } else {
+                    rowClass = 'row-odd';
+                }
+
+                let str = '<tr class="' + rowClass + '">';
+                str += '<td class=\'td1\'>' + ele.prodcode + '</td>';
+                str += '<td class=\'td1\'>' + ele.prodname + '</td>';
+                str += '<td class=\'td1\'>' + ele.price + '</td>';
+                str += '<td class=\'td1\'>' + ele.category + '</td>';
+                str += '<td class=\'td1\'>' + ele.offer + '</td>';
+                str += '</tr>';
+                return str;
+            });
+
+            let header = '<tr>';
+            header += '<th class=\'th1\' >Product Code</th>';
+            header += '<th class=\'th1\' >Product Name</th>';
+            header += '<th class=\'th1\' >Price</th>';
+            header += '<th class=\'th1\' >Category</th>';
+            header += '<th class=\'th1\' >Offer</th>';
+            header += '</tr>';
+            let html = '<table class=\'table1\'>' + header + pMap.join('') + '</table>';
+            let div = document.getElementById('show');
+            div.innerHTML = html;
+        }
+
+        function enterOrder() {
+            document.getElementById('showall').style.display = 'none';
+            document.getElementById('show').style.display = 'none';
+            document.getElementById('show1').style.display = 'block';
+
+            let str = 'Customer Name: <input type="text" id="customerName" required=""><br>';
+            str += 'Mobile Number: <input type="text" id="mobileNumber" required=""><br>';
+            str += 'Location: <select id="location" required=""><option value="" disabled selected>Choose Location</option></select><br>';
+            str += 'Delivery Slots: <select id="deliverySlot" required=""><option value="" disabled selected>Choose Delivery Slot</option></select><br>';
+            str += 'Add to Order: <select id="Products" required=""></select>';
+            str += '<select id="quantity" required=""></select>';
+            str += '<button onclick=\'addOrder()\'>Add to Order</button><br>';
+            str += '<button onclick=\'completeOrder()\'>Complete Order</button>';
+            str += '<button onclick=\'cancelOrder()\'>Cancel Order</button>';
+
+            let div = document.getElementById('show1');
+            div.innerHTML = str;
+
+            makeDD('location', 'Choose Location:', 'location', Locations);
+            makeDD('deliverySlot', 'Choose Delivery:', 'deliverySlot', DeliverySlots);
+            makeDD('Products', 'Select Product:', 'prodcode', Products, true);
+            makeDD('quantity', 'Select quantity:', 'value', [1, 2, 3, 4, 5, 6], false);
+
+            let header = '<tr>';
+            header += '<th class=\'th1\' >Code</th>';
+            header += '<th class=\'th1\' >Name</th>';
+            header += '<th class=\'th1\' >Price</th>';
+            header += '<th class=\'th1\' >Quantity</th>';
+            header += '<th class=\'th1\' >Discount</th>';
+            header += '<th class=\'th1\' >Net Amount</th>';
+            header += '<th class=\'th1\' ></th>';
+            header += '</tr>';
+            let html = '<table class=\'table1\'>' + header + '</table>';
+            div = document.getElementById('show1');
+            div.innerHTML += html;
+        }
+
+        function makeDD(dropdownId, label, property, dataArray, useProperty) {
+            const dropdown = document.getElementById(dropdownId);
+            let uniqueValues = [];
+            let dropdownHTML = '<option value="" disabled selected>' + label + '</option>';
+
+            dataArray.map((data) => {
+                let value;
+                if (useProperty) {
+                    value = data[property];
+                } else {
+                    value = data;
+                }
+
+                if (uniqueValues.indexOf(value) === -1) {
+                    dropdownHTML += '<option value="' + value + '">' + value + '</option>';
+                    uniqueValues.push(value);
+                }
+            });
+
+            dropdown.innerHTML = dropdownHTML;
+        }
+
+        function addOrder() {
+    const customerName = document.getElementById('customerName').value;
+    const mobileNumber = parseFloat(document.getElementById('mobileNumber').value);
+    const location = document.getElementById('location').value;
+    const deliverySlot = document.getElementById('deliverySlot').value;
+    const product = document.getElementById('Products').value;
+    const quantity = parseFloat(document.getElementById('quantity').value);
+
+    const selectedProduct = Products.find((prod) => prod.prodcode === product);
+
+    const tableContainer = document.getElementById('show1');
+    const table1 = tableContainer.getElementsByTagName('table')[0];
+
+    const rows = [...table1.rows];
+
+    const existingRowIndex = rows.findIndex((row) => {
+        const firstCellContent = row.cells[0].innerHTML;
+        return firstCellContent === selectedProduct.prodcode;
+    });
+
+    if (existingRowIndex !== -1) {
+        const existingRow = rows[existingRowIndex];
+        const quantityCell = existingRow.cells[3];
+        const existingQuantity = parseFloat(quantityCell.innerHTML);
+        const newQuantity = existingQuantity + quantity;
+
+        if (newQuantity <= 0) {
+            rows.splice(existingRowIndex, 1);
+        } else {
+            quantityCell.innerHTML = newQuantity;
+            const netAmountCell = existingRow.cells[5];
+            let netAmount;
+
+            if (selectedProduct.offer === 'None') {
+                netAmount = selectedProduct.price * newQuantity;
+            } else {
+                netAmount = (selectedProduct.price * newQuantity) * (1 - parseFloat(selectedProduct.offer) / 100);
+            }
+
+            netAmountCell.innerHTML = netAmount.toFixed(2);
+        }
+    } else {
+        if (table1.tBodies.length === 0) {
+            const header = '<tr>' +
+                '<th class="th1">Code</th>' +
+                '<th class="th1">Name</th>' +
+                '<th class="th1">Price</th>' +
+                '<th class="th1">Quantity</th>' +
+                '<th class="th1">Discount</th>' +
+                '<th class="th1">Net Amount</th>' +
+                '<th class="th1"></th>' +
+                '</tr>';
+            table1.innerHTML = '<tbody>' + header + '</tbody>';
+        }
+
+        let netAmount;
+
+        if (selectedProduct.offer === 'None') {
+            netAmount = selectedProduct.price * quantity;
+        } else {
+            netAmount = (selectedProduct.price * quantity) * (1 - parseFloat(selectedProduct.offer) / 100);
+        }
+
+        const newRow = '<tr class="add-to-order-row">' +
+            '<td class="td2">' + selectedProduct.prodcode + '</td>' +
+            '<td class="td2">' + selectedProduct.prodname + '</td>' +
+            '<td class="td2">' + selectedProduct.price + '</td>' +
+            '<td class="td2">' + quantity + '</td>' +
+            '<td class="td2">' + selectedProduct.offer + '</td>' +
+            '<td class="td2">' + netAmount.toFixed(2) + '</td>' +
+            '<td class="td2"><button onclick="removeItem(this, \'' + product + '\', ' + quantity + ')">Remove</button></td>' +
+            '</tr>';
+        table1.tBodies[0].innerHTML += newRow;
+    }
+}
+
+        function removeItem(button) {
+            const row = button.parentNode.parentNode;
+            const tableBody = row.parentNode;
+
+            const rowsArray = [...tableBody.children];
+            const rowIndex = rowsArray.indexOf(row);
+
+            if (rowIndex !== -1) {
+                rowsArray.splice(rowIndex, 1);
+                const rowsHTML = rowsArray.map((newRow) => newRow.outerHTML);
+                tableBody.innerHTML = rowsHTML.join('');
+            }
+        }
+
+        function completeOrder() {
+            const customerName = document.getElementById("customerName").value;
+            const mobileNumber = document.getElementById("mobileNumber").value;
+            const location = document.getElementById("location").value;
+            const deliverySlot = document.getElementById("deliverySlot").value;
+
+            if (customerName.length < 5) {
+                alert("Customer name must contain at least 5 characters.");
+                return;
+            }
+            if (mobileNumber.length !== 10 || ([...mobileNumber].reduce((isValid, char) => isValid && (char >= '0' && char <= '9'), true) === false)) {
+                alert("Mobile number must contain exactly 10 digits and only digits.");
+                return;
+            }
+            if (location === "" || deliverySlot === "") {
+                alert("Please select a location and delivery slot.");
+                return;
+            }
+
+            const newOrder = {
+                customerName: customerName,
+                mobileNumber: mobileNumber,
+                location: location,
+                deliverySlot: deliverySlot,
+                items: []
+            };
+
+            const orderItemRows = document.getElementById("show1").getElementsByTagName("table")[0].tBodies[0].rows;
+
+            newOrder.items = [...orderItemRows].map((row, index) => {
+                if (index === 0) return null;
+                const [code, name, price, quantity, discount, netAmount, _] = row.cells;
+                return {
+                    productCode: code.innerHTML,
+                    productName: name.innerHTML,
+                    price: parseFloat(price.innerHTML),
+                    quantity: parseInt(quantity.innerHTML),
+                    discountPercentage: discount.innerHTML,
+                };
+            }).filter(item => item !== null);
+
+            newOrder.totalItems = newOrder.items.reduce((total, item) => total + item.quantity, 0);
+
+            orders.unshift(newOrder);
+
+            document.getElementById("customerName").value = "";
+            document.getElementById("mobileNumber").value = "";
+            document.getElementById("location").value = "Choose Location";
+            document.getElementById("deliverySlot").value = "Choose Delivery Slot";
+
+            const orderTableBody = document.getElementById("show1").getElementsByTagName("table")[0].tBodies[0];
+            orderTableBody.innerHTML = "";
+
+            allorder();
+        }
+
+        function cancelOrder() {
+            const orderTable = document.getElementById("show1").getElementsByTagName("table")[0];
+            const orderTableBody = orderTable.tBodies[0];
+
+            orderTableBody.innerHTML = '<tr>' +
+                '<th class="th1">Code</th>' +
+                '<th class="th1">Name</th>' +
+                '<th class="th1">Price</th>' +
+                '<th class="th1">Quantity</th>' +
+                '<th class="th1">Discount</th>' +
+                '<th class="th1">Net Amount</th>' +
+                '<th class="th1"></th>' +
+                '</tr>';
+            const customerName = document.getElementById("customerName").value;
+            const mobileNumber = document.getElementById("mobileNumber").value;
+
+            const orderIndex = orders.findIndex(order => order.customerName === customerName && order.mobileNumber === mobileNumber);
+
+            if (orderIndex !== -1) {
+                orders.splice(orderIndex, 1);
+                document.getElementById("customerName").value = "";
+                document.getElementById("mobileNumber").value = "";
+                document.getElementById("location").value = "Choose Location";
+                document.getElementById("deliverySlot").value = "Choose Delivery Slot";
+                allorder();
+            }
+        }
+
+        function allorder() {
+            let orderDetails = orders.map(order => {
+                let itemsDetails = order.items.map(item => {
+                    let selectedProduct = Products.find(prod => prod.prodcode === item.productCode);
+                    let discountPercentage = parseFloat(selectedProduct.offer);
+                    let netAmount;
+
+                    if (selectedProduct.offer === 'None') {
+                        netAmount = selectedProduct.price * item.quantity;
+                    } else {
+                        netAmount = (selectedProduct.price * item.quantity) * (1 - discountPercentage / 100);
+                    }
+                    let str = '<tr>';
+                    str += '<td class="td2">' + selectedProduct.prodcode + '</td>';
+                    str += '<td class="td2">' + selectedProduct.prodname + '</td>';
+                    str += '<td class="td2">' + selectedProduct.price + '</td>';
+                    str += '<td class="td2">' + item.quantity + '</td>';
+                    str += '<td class="td2">' + selectedProduct.offer + '</td>';
+                    str += '<td class="td2">' + netAmount.toFixed(2) + '</td>';
+                    str += '</tr>';
+                    return str;
+                }).join('');
+
+                let totalValue = order.items.reduce((total, item) => {
+                    let selectedProduct = Products.find(prod => prod.prodcode === item.productCode);
+                    let discountPercentage = parseFloat(selectedProduct.offer);
+                    let netAmount;
+
+                    if (selectedProduct.offer === 'None') {
+                        netAmount = selectedProduct.price * item.quantity;
+                    } else {
+                        netAmount = (selectedProduct.price * item.quantity) * (1 - discountPercentage / 100);
+                    }
+                    return total + netAmount;
+                }, 0);
+                let orderDetailsStr = '<br>';
+                orderDetailsStr += 'Customer Name: ' + order.customerName + ', ';
+                orderDetailsStr += 'Mobile: ' + order.mobileNumber + ', ';
+                orderDetailsStr += 'Location: ' + order.location + ', ';
+                orderDetailsStr += 'Delivery Slot: ' + order.deliverySlot + ', <br>';
+                orderDetailsStr += 'Order Value: ' + totalValue.toFixed(2) + ', ';
+                orderDetailsStr += 'Number of Items: ' + order.totalItems;
+                orderDetailsStr += '<table class=\'table1\'>';
+                orderDetailsStr += '<tr>';
+                orderDetailsStr += '<th class=\'th1\'>Product Code</th>';
+                orderDetailsStr += '<th class=\'th1\'>Product Name</th>';
+                orderDetailsStr += '<th class=\'th1\'>Price</th>';
+                orderDetailsStr += '<th class=\'th1\'>Quantity</th>';
+                orderDetailsStr += '<th class=\'th1\'>Discount</th>';
+                orderDetailsStr += '<th class=\'th1\'>Net Amount</th>';
+                orderDetailsStr += '</tr>';
+                orderDetailsStr += itemsDetails;
+                orderDetailsStr += '</table>';
+                orderDetailsStr = orderDetailsStr.replace(/<tr>/g, '<tr class="all-orders-row">');
+
+                return orderDetailsStr;
+            }).join('');
+
+            document.getElementById('showall').style.display = 'block';
+            document.getElementById('show').style.display = 'none';
+            document.getElementById('show1').style.display = 'none';
+
+            let div = document.getElementById('showall');
+            div.innerHTML = orderDetails;
+        }
+    </script>
+</body>
+
+</html>

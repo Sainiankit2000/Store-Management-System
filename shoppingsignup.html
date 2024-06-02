@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sign Up - Store Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            padding: 20px; /* Add padding to the heading */
+            background-color: red;
+            text-align: center;
+            margin: 0;
+            color: #fff;
+        }
+
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh; /* Increase the height to your desired value */
+        }
+
+        .signup-box {
+            background-color: red;
+            padding: 100px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .signup-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .signup-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        .header-image {
+            position: absolute; /* Position the image absolutely */
+            top: 200px; /* Adjust the top position as needed */
+            right: 50px; /* Adjust the right position as needed (increased from 1px) */
+            width: 500px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .signup-button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .signup-button:hover {
+            background-color: blue;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><marquee>STORE MANAGEMENT SYSTEM</marquee></h1>
+    <img class="header-image" src="signup.jpg" alt="Header Image">
+
+    <div class="signup-container">
+        <div class="signup-box">
+            <div class="signup-title">Sign Up</div>
+            <form class="signup-form" id="signupForm" onsubmit="return signUpUser()">
+                <div class="form-group">
+                    <label for="new-username">Username:</label>
+                    <input type="text" id="new-username" name="new-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Password:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="signup-button">Sign Up</button>
+                </div>
+            </form>
+            <div class="login-link">
+                Already have an account? <a href="shoppinglogin.html">Login</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        function signUpUser() {
+            // Add your user registration logic here
+            const newUsername = document.getElementById('new-username').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            // You can send the registration data to your server for processing here
+
+            // For example, you can use JavaScript's fetch API to make a POST request to your server
+            fetch('your-registration-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: newUsername,
+                    password: newPassword,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Registration successful! You can now log in.');
+                        window.location.href = 'login.html'; // Redirect to the login page
+                    } else {
+                        alert('Registration failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred during registration.');
+                });
+
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+
+</html>
